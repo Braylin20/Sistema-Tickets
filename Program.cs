@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using RegPrioridades.BLL;
 using RegPrioridades.Components;
+using RegPrioridades.DAL;
 
 namespace RegPrioridades
 {
@@ -11,6 +14,12 @@ namespace RegPrioridades
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
+            var ConStr = builder.Configuration.GetConnectionString("ConStr");
+            builder.Services.AddDbContext<Contexto>(Options => Options.UseSqlite(ConStr));
+
+            builder.Services.AddScoped<PrioridadesBLL>();
+
 
             var app = builder.Build();
 
