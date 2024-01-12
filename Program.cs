@@ -16,7 +16,9 @@ namespace RegPrioridades
                 .AddInteractiveServerComponents();
 
             var ConStr = builder.Configuration.GetConnectionString("ConStr");
-            builder.Services.AddDbContext<Contexto>(Options => Options.UseSqlite(ConStr));
+
+            builder.Services.AddDbContext<Contexto>(options => 
+                options.UseSqlite(ConStr));
 
             builder.Services.AddScoped<PrioridadesBLL>();
 

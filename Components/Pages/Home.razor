@@ -3,7 +3,7 @@
 @rendermode InteractiveServer
 
 <PageTitle>Registro Prioridades</PageTitle>
-<EditForm Model="Prioridad" OnInvalidSubmit="Guardar">
+<EditForm Model="Prioridad" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
 
     <div class="container">
@@ -21,7 +21,7 @@
                     </div>
                     <p class="text-danger">@MensajeId</p>
                 </div>
-                @*Días Compromiso*@
+                @*Descripción*@
                 <div class="mb-3">
                     <label class="form-label" for="Soliciatdo Por">Descripci&oacute;n</label>
                     <InputText @bind-Value="Prioridad.Descripción" class="form-control"/>
@@ -37,9 +37,9 @@
             </div>
             <div class="card-footer d-flex justify-content-center">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo<i class="oi oi-file" /></button>
-                    <button type="submit" class="btn btn-outline-success"> Guardar<i class="oi oi-document" /></button>
-                    <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar <i class="oi oi-trash" /></button>
+                    <button type="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" class="btn btn-outline-success"> Guardar</button>
+                    <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -64,14 +64,19 @@
             MensajeId = "No se encuentra el id";
     }
 
-    public async Task Guardar(){
+    public async Task Guardar()
+    {
         var guardo = prioridadBLL.Save(this.Prioridad);
         if (guardo)
         {
             Mensaje = "Se guardó correctamente";
+            this.Nuevo();
         }
         else
+        {
             Mensaje = "Ya existe una prioridad";
+            this.Nuevo();
+        }
     }
 
     public async Task Eliminar(){
