@@ -16,40 +16,52 @@
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
                     <label>Prioridad Id</label>
                     <div class="input-group mb-3">
-                        <InputNumber @bind-Value="Prioridad.PrioridadId" class="form-control" aria-describedby="BotonBuscar"/>
-                        <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscar"><i class="oi oi-magnifying-glass" /></button>
+                        <InputNumber @bind-Value="Prioridad.PrioridadId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar" />
+                        <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscar"><i class="bi bi-search" /></button>
                     </div>
                     <p class="text-danger">@MensajeId</p>
                 </div>
                 @*Descripción*@
                 <div class="mb-3">
                     <label class="form-label" for="Soliciatdo Por">Descripci&oacute;n</label>
-                    <InputText @bind-Value="Prioridad.Descripción" class="form-control"/>
+                    <InputText @bind-Value="Prioridad.Descripción" @oninput="Ocultar" class="form-control" />
                     <ValidationMessage For="@(() => Prioridad.Descripción)"/>
                     <p class="text-danger">@Mensaje</p>
                 </div>
+                
                 @*Días Compromiso*@
                 <div class="mb-3">
                     <label class="form-label" for="Días">D&iacute;as</label>
-                    <InputNumber @bind-Value="Prioridad.DíasCompromiso" class="form-check-label" step="1" min="1" max="31" />
+                    <InputNumber @bind-Value="Prioridad.DíasCompromiso" @oninput="Ocultar" class="form-check-label" step="1" min="1" max="31" />
                     <ValidationMessage For="@(() => Prioridad.DíasCompromiso)" />
                 </div>
+                <p class="text-danger ">@MensajeEliminar </p>
             </div>
+            @if (Guardó)
+            {
+                <p class="text-success">@MensajeGuardar</p>
+            }
             <div class="card-footer d-flex justify-content-center">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo</button>
-                    <button type="submit" class="btn btn-outline-success"> Guardar</button>
-                    <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+                    <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus-fill fs-6" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" class="btn btn-outline-success bi bi-floppy-fill">Guardar</button>
+                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
                 </div>
             </div>
+            
         </div>
     </div>
 </EditForm> 
 
-@code{
+@code
+{
+    [Parameter]
     public Prioridades Prioridad{get; set;}= new Prioridades();
     public string Mensaje{ get; set; } = string.Empty;
     public string MensajeId{ get; set; } = string.Empty;
+    public string MensajeEliminar{ get; set; } = string.Empty;
+    public string MensajeGuardar{ get; set; } = string.Empty;
+    public bool Guardó = false;
 
 
     public async Task Buscar()
@@ -59,6 +71,7 @@
         {
             Prioridad = encontrado;
             MensajeId = string.Empty;
+            MensajeEliminar = string.Empty;
         }
         else
             MensajeId = "No se encuentra el id";
@@ -69,13 +82,15 @@
         var guardo = prioridadBLL.Save(this.Prioridad);
         if (guardo)
         {
-            Mensaje = "Se guardó correctamente";
+            MensajeGuardar = "Se guardó correctamente";
+            MensajeEliminar = string.Empty;
+            Guardó = true;
             this.Nuevo();
         }
         else
         {
-            Mensaje = "Ya existe una prioridad";
-            this.Nuevo();
+            MensajeEliminar = "Ya existe una prioridad";
+            Guardó = false;
         }
     }
 
@@ -83,14 +98,26 @@
         var eliminado = prioridadBLL.Delete(Prioridad.PrioridadId);
         if (eliminado)
         {
-            Mensaje = "Se eliminó correctamente";
+            MensajeEliminar = "Se eliminó correctamente";
             Nuevo();
+        }
+        else
+        {
+            MensajeEliminar = "Debe agregar un dato para eliminarlo";
         }
     }
     public void Nuevo()
     {
         this.Prioridad = new Prioridades();
+        MensajeId = string.Empty;
+        MensajeEliminar = string.Empty;
+    }
+
+    public void Ocultar(){
         Mensaje = string.Empty;
+        MensajeId = string.Empty;
+        MensajeEliminar = string.Empty;
+        MensajeGuardar = string.Empty;
     }
 }
 

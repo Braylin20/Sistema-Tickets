@@ -13,7 +13,7 @@ namespace RegPrioridades.BLL
         }
         public bool Validar(Prioridades prioridades)
         {
-            bool existe = _contexto.Prioridades.Any(p => p.Descripción.ToLower() == prioridades.Descripción.ToLower());
+            bool existe = _contexto.Prioridades.Any(p => p.Descripción.ToLower() == prioridades.Descripción.ToLower() && p.PrioridadId != prioridades.PrioridadId);
             return existe;
         }
         public bool Save(Prioridades prioridades)
@@ -35,9 +35,18 @@ namespace RegPrioridades.BLL
         }
         public bool Delete(int id)
         {
+            
             var prioridad = _contexto.Prioridades.Find(id);
-            _contexto.Prioridades.Remove(prioridad);
-            return _contexto.SaveChanges() > 0;
+            if(prioridad == null)
+            {
+                return false;
+            }
+            else
+            {
+                _contexto.Prioridades.Remove(prioridad);
+                return _contexto.SaveChanges() > 0;
+            }
+            
         }
         public List<Prioridades> getPrioridades()
         {
