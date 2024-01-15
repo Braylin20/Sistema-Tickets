@@ -5,7 +5,6 @@
 <PageTitle>Registro Prioridades</PageTitle>
 <EditForm Model="Prioridad" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header">
@@ -28,14 +27,13 @@
                     <ValidationMessage For="@(() => Prioridad.Descripción)"/>
                     <p class="text-danger">@Mensaje</p>
                 </div>
-                
                 @*Días Compromiso*@
                 <div class="mb-3">
                     <label class="form-label" for="Días">D&iacute;as</label>
                     <InputNumber @bind-Value="Prioridad.DíasCompromiso" @oninput="Ocultar" class="form-check-label" step="1" min="1" max="31" />
                     <ValidationMessage For="@(() => Prioridad.DíasCompromiso)" />
                 </div>
-                <p class="text-danger ">@MensajeEliminar </p>
+                <p class="text-danger">@MensajeEliminar </p>
             </div>
             @if (Guardó)
             {
@@ -48,7 +46,6 @@
                     <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
                 </div>
             </div>
-            
         </div>
     </div>
 </EditForm> 
@@ -62,8 +59,6 @@
     public string MensajeEliminar{ get; set; } = string.Empty;
     public string MensajeGuardar{ get; set; } = string.Empty;
     public bool Guardó = false;
-
-
     public async Task Buscar()
     {
         var encontrado = await prioridadBLL.FindAsync(Prioridad.PrioridadId);
@@ -106,6 +101,7 @@
             MensajeEliminar = "Debe agregar un dato para eliminarlo";
         }
     }
+
     public void Nuevo()
     {
         this.Prioridad = new Prioridades();
