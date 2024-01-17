@@ -11,32 +11,34 @@ namespace RegPrioridades.BLL
         {
             _contexto = contexto;
         }
-        public bool Validar(Prioridades prioridades)
+        public async Task<bool> Existe(Prioridades prioridad)
         {
-            bool existe = _contexto.Prioridades.Any(p => p.Descripción.ToLower() == prioridades.Descripción.ToLower() && p.PrioridadId != prioridades.PrioridadId);
+            bool existe = await _contexto.Prioridades.
+                AnyAsync(p => p.Descripción.ToLower() ==prioridad.Descripción.ToLower());
             return existe;
         }
-        public bool Save(Prioridades prioridades)
+        public async Task<bool> Save(Prioridades prioridad)
         {
-            if(Validar(prioridades))
+            if (await Existe(prioridad))
             {
                 return false;
             }
-            if (prioridades.PrioridadId == 0)
-                _contexto.Prioridades.Add(prioridades);
+
+            if (prioridad.PrioridadId ==0)
+                _contexto.Prioridades.Add(prioridad);
             else
-                _contexto.Entry(prioridades).State = EntityState.Modified;
-            var saved = _contexto.SaveChanges() > 0;
-            return saved;
+                _contexto.Update(prioridad);
+             
+            return await _contexto.SaveChangesAsync() > 0;
         }
         public async Task<Prioridades?> FindAsync(int id)
         {
             return await _contexto.Prioridades.FindAsync(id);
         }
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             
-            var prioridad = _contexto.Prioridades.Find(id);
+            var prioridad = await _contexto.Prioridades.FindAsync(id);
             if(prioridad == null)
             {
                 return false;
@@ -48,9 +50,9 @@ namespace RegPrioridades.BLL
             }
             
         }
-        public List<Prioridades> getPrioridades()
+        public async Task<List<Prioridades>> getPrioridades()
         {
-            return _contexto.Prioridades.ToList();
+            return await _contexto.Prioridades.ToListAsync();
         }
     }
 }
