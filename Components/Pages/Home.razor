@@ -18,14 +18,12 @@
                         <InputNumber @bind-Value="Prioridad.PrioridadId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar" />
                         <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscar"><i class="bi bi-search" /></button>
                     </div>
-                    <p class="text-danger">@MensajeId</p>
                 </div>
                 @*Descripción*@
                 <div class="mb-3">
                     <label class="form-label" for="Soliciatdo Por">Descripci&oacute;n</label>
                     <InputText @bind-Value="Prioridad.Descripción" @oninput="Ocultar" class="form-control" />
                     <ValidationMessage For="@(() => Prioridad.Descripción)"/>
-                    <p class="text-danger">@Mensaje</p>
                 </div>
                 @*Días Compromiso*@
                 <div class="mb-3">
@@ -33,12 +31,11 @@
                     <InputNumber @bind-Value="Prioridad.DíasCompromiso" @oninput="Ocultar" class="form-check-label" step="1" min="1" max="31" />
                     <ValidationMessage For="@(() => Prioridad.DíasCompromiso)" />
                 </div>
-                <p class="text-danger">@MensajeEliminar </p>
+                @if (Mensaje != null)
+                {
+                    <p class="text-danger">@Mensaje</p>
+                }
             </div>
-            @if (Guardó)
-            {
-                <p class="text-success">@MensajeGuardar</p>
-            }
             <div class="card-footer d-flex justify-content-center">
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus-fill fs-6" @onclick="Nuevo">Nuevo</button>
@@ -55,65 +52,53 @@
     [Parameter]
     public Prioridades Prioridad{get; set;}= new Prioridades();
     public string Mensaje{ get; set; } = string.Empty;
-    public string MensajeId{ get; set; } = string.Empty;
-    public string MensajeEliminar{ get; set; } = string.Empty;
-    public string MensajeGuardar{ get; set; } = string.Empty;
-    public bool Guardó = false;
+
     public async Task Buscar()
     {
         var encontrado = await prioridadBLL.FindAsync(Prioridad.PrioridadId);
         if (encontrado != null)
         {
             Prioridad = encontrado;
-            MensajeId = string.Empty;
-            MensajeEliminar = string.Empty;
+            Mensaje = string.Empty;
         }
         else
-            MensajeId = "No se encuentra el id";
+            Mensaje = "No se encuentra el id";
     }
 
     public async Task Guardar()
     {
-        var guardo = prioridadBLL.Save(this.Prioridad);
+        var guardo = await prioridadBLL.Save(Prioridad);
         if (guardo)
         {
-            MensajeGuardar = "Se guardó correctamente";
-            MensajeEliminar = string.Empty;
-            Guardó = true;
-            this.Nuevo();
-        }
-        else
-        {
-            MensajeEliminar = "Ya existe una prioridad";
-            Guardó = false;
-        }
-    }
-
-    public async Task Eliminar(){
-        var eliminado = prioridadBLL.Delete(Prioridad.PrioridadId);
-        if (eliminado)
-        {
-            MensajeEliminar = "Se eliminó correctamente";
+            Mensaje = "Se guardó correctamente";
             Nuevo();
         }
         else
         {
-            MensajeEliminar = "Debe agregar un dato para eliminarlo";
+            Mensaje = "Ya existe una prioridad";
+        }
+    }
+
+    public async Task Eliminar(){
+        var eliminado = await prioridadBLL.Delete(Prioridad.PrioridadId);
+        if (eliminado)
+        {
+            Mensaje = "Se eliminó correctamente";
+            Nuevo();
+        }
+        else
+        {
+            Mensaje = "Debe agregar un dato para eliminarlo";
         }
     }
 
     public void Nuevo()
     {
         this.Prioridad = new Prioridades();
-        MensajeId = string.Empty;
-        MensajeEliminar = string.Empty;
     }
 
     public void Ocultar(){
         Mensaje = string.Empty;
-        MensajeId = string.Empty;
-        MensajeEliminar = string.Empty;
-        MensajeGuardar = string.Empty;
     }
 }
 
