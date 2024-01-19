@@ -21,6 +21,7 @@ namespace RegPrioridades
                 options.UseSqlite(ConStr));
 
             builder.Services.AddScoped<PrioridadesBLL>();
+            builder.Services.AddScoped<ClientesBLL>();
 
 
             var app = builder.Build();
