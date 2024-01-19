@@ -7,6 +7,5 @@ namespace RegPrioridades.DAL
     {
         public Contexto(DbContextOptions<Contexto> options) : base(options) { }
         public DbSet<Prioridades> Prioridades {  get; set; }
-        public DbSet<Clientes> Clientes { get; set;}
     }
 }
