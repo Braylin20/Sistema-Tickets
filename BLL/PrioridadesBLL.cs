@@ -20,9 +20,8 @@ namespace RegPrioridades.BLL
         public async Task<bool> Save(Prioridades prioridad)
         {
             if (await Existe(prioridad))
-            {
                 return false;
-            }
+
 
             if (prioridad.PrioridadId ==0)
                 _contexto.Prioridades.Add(prioridad);
