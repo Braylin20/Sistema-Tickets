@@ -57,5 +57,9 @@ namespace RegPrioridades.BLL
                 .Where(criterio)
                 .ToListAsync();
         }
+        public async Task<List<Clientes>> getClientes()
+        {
+            return await _contexto.Clientes.ToListAsync();
+        }
     }
 }
