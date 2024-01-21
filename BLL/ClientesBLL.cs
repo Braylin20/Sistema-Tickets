@@ -18,7 +18,7 @@ namespace RegPrioridades.BLL
         {
             if (await Existe(cliente))
                 return false;
-            if(cliente.ClientesId == 0)
+            if(cliente.ClienteId == 0)
                 _contexto.Clientes.Add(cliente);
             else
                 _contexto.Update(cliente);
@@ -30,8 +30,8 @@ namespace RegPrioridades.BLL
         public async Task<bool> Existe(Clientes cliente)
         {
             bool existe = await _contexto.Clientes.AnyAsync(c => 
-            c.Nombre!.ToLower() == cliente.Nombre!.ToLower() 
-            || c.RNC == cliente.RNC);
+            (c.Nombre!.ToLower() == cliente.Nombre!.ToLower() 
+            || c.RNC == cliente.RNC)&& c.ClienteId ==0);
 
             return existe;
         }
@@ -39,7 +39,7 @@ namespace RegPrioridades.BLL
         public async Task<bool> Delete(Clientes cliente)
         {
             var cantidad = await _contexto.Prioridades
-             .Where(p => p.PrioridadId == cliente.ClientesId)
+             .Where(p => p.PrioridadId == cliente.ClienteId)
              .ExecuteDeleteAsync();
             return cantidad > 0;
         }
@@ -48,7 +48,7 @@ namespace RegPrioridades.BLL
         {
             return await _contexto.Clientes
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.ClientesId== clienteId);
+                .FirstOrDefaultAsync(p => p.ClienteId== clienteId);
         }
         public async Task<List<Clientes>> Listar(Expression<Func<Clientes, bool>> criterio)
         {

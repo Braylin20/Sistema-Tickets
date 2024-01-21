@@ -5,14 +5,15 @@ namespace RegPrioridades.Models
     public class Clientes
     {
         [Key]
-        public int ClientesId { get; set; }
-        [Required(ErrorMessage = "Este campo es requerido"), StringLength(20)]
-        [RegularExpression(@"^[a-zA-Z]", ErrorMessage = "No puede contener dígitos")]
+        public int ClienteId { get; set; }
+        [Required(ErrorMessage = "Este campo es requerido")]
+        [RegularExpression(@"^[a-zA-Z]+", ErrorMessage = "No puede contener dígitos")]
         public string? Nombre { get; set; }
         [Required(ErrorMessage = "Este campo es requerido")]
-        public string? Telefono { get; set; }
+        public string? Teléfono { get; set; }
         [Required(ErrorMessage = "Este campo es requerido")]
-        [RegularExpression(@"^\(829|809|849\)\d{7}", ErrorMessage = "El número de teléfono no es válido.")]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "El Celular solo puede contener digitos.")]
+        [StringLength(maximumLength: 10, MinimumLength = 10, ErrorMessage = "La longitud debe ser de 10 dígitos")]
         public string? Celular { get; set; }
         [Required(ErrorMessage = "Este campo es requerido"), EmailAddress(ErrorMessage = "No es un correo válido")]
         public string? Email { get; set; }
