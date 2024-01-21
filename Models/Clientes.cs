@@ -10,6 +10,8 @@ namespace RegPrioridades.Models
         [RegularExpression(@"^[a-zA-Z]+", ErrorMessage = "No puede contener dígitos")]
         public string? Nombre { get; set; }
         [Required(ErrorMessage = "Este campo es requerido")]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "El Celular solo puede contener digitos.")]
+        [StringLength(maximumLength: 10, MinimumLength = 10, ErrorMessage = "La longitud debe ser de 10 dígitos")]
         public string? Teléfono { get; set; }
         [Required(ErrorMessage = "Este campo es requerido")]
         [RegularExpression("^[0-9]+$", ErrorMessage = "El Celular solo puede contener digitos.")]
