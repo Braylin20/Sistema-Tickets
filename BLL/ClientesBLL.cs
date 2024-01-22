@@ -50,6 +50,7 @@ namespace RegPrioridades.BLL
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.ClienteId== clienteId);
         }
+
         public async Task<List<Clientes>> Listar(Expression<Func<Clientes, bool>> criterio)
         {
             return await _contexto.Clientes
@@ -57,6 +58,7 @@ namespace RegPrioridades.BLL
                 .Where(criterio)
                 .ToListAsync();
         }
+
         public async Task<List<Clientes>> getClientes()
         {
             return await _contexto.Clientes.ToListAsync();
