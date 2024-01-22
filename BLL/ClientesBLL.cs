@@ -31,17 +31,18 @@ namespace RegPrioridades.BLL
         {
             bool existe = await _contexto.Clientes.AnyAsync(c => 
             (c.Nombre!.ToLower() == cliente.Nombre!.ToLower() 
-            || c.RNC == cliente.RNC)&& c.ClienteId ==0);
+            || c.RNC == cliente.RNC));
 
             return existe;
         }
 
-        public async Task<bool> Delete(Clientes cliente)
+        public async Task<bool> Delete(int id)
         {
-            var cantidad = await _contexto.Prioridades
-             .Where(p => p.PrioridadId == cliente.ClienteId)
-             .ExecuteDeleteAsync();
-            return cantidad > 0;
+            var cliente = _contexto.Clientes.Find(id);
+
+            _contexto.Clientes.Remove(cliente!);
+            var deleted = await _contexto.SaveChangesAsync() > 0;
+            return deleted;
         }
 
         public async Task<Clientes?> Buscar(int clienteId)

@@ -71,7 +71,7 @@
     </div>
 </EditForm>
 @code {
-    
+
     public Clientes Cliente { get; set; } = new Clientes();
     public string Mensaje = string.Empty;
 
@@ -96,13 +96,11 @@
             Nuevo();
         }
         else
-        {
             Mensaje = "No se guardó correctamente";
-        }
     }
     public async Task Eliminar()
     {
-        var eliminado = await clientesBLL.Delete(Cliente);
+        var eliminado = await clientesBLL.Delete(Cliente.ClienteId);
         if (eliminado)
         {
             Nuevo();
@@ -117,7 +115,6 @@
     public void Nuevo()
     {
         Cliente = new Clientes();
-        Mensaje = "";
     }
     public void Ocultar()
     {
