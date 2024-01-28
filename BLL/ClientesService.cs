@@ -35,15 +35,27 @@ namespace RegPrioridades.BLL
 
             return existe;
         }
-
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int cliente)
         {
-            var cliente = _contexto.Clientes.Find(id);
-
-            _contexto.Clientes.Remove(cliente!);
-            var deleted = await _contexto.SaveChangesAsync() > 0;
-            return deleted;
+            var eliminado = await _contexto.Clientes.FindAsync(cliente);
+            if (eliminado == null)
+            {
+                return false;
+            }
+            else
+            {
+                _contexto.Clientes.Remove(eliminado);
+                return _contexto.SaveChanges() > 0;
+            }
         }
+        //public async Task<bool> Delete(int id)
+        //{
+        //    var cliente = _contexto.Clientes.Find(id);
+
+        //    _contexto.Clientes.Remove(cliente!);
+        //    var deleted = await _contexto.SaveChangesAsync() > 0;
+        //    return deleted;
+        //}
 
         public async Task<Clientes?> Buscar(int clienteId)
         {
@@ -63,6 +75,10 @@ namespace RegPrioridades.BLL
         public async Task<List<Clientes>> getClientes()
         {
             return await _contexto.Clientes.ToListAsync();
+        }
+        public async Task<Clientes?> FindAsync(int id)
+        {
+            return await _contexto.Clientes.FindAsync(id);
         }
     }
 }
