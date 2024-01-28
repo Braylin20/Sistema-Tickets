@@ -1,0 +1,124 @@
+﻿@page "/Clientes"
+@inject ClientesService clienteService
+@rendermode InteractiveServer
+
+<PageTitle>Registro Cliente</PageTitle>
+<EditForm Model="Cliente" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator/>
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h3>Registro Prioridades</h3>
+            </div>
+            <div class="card-body">
+                @*Cliente Id*@
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                    <label>Cliente Id</label>
+                    <div class="input-group mb-3">
+                        <InputNumber @bind-Value="Cliente.ClienteId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar"/>
+                        <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscar"><i class="bi bi-search" /></button>
+                    </div>
+                </div>
+                @*Nombre*@
+                <div class="mb-3">
+                    <label class="form-label" for="Soliciatdo Por">Nombre</label>
+                    <InputText @bind-Value="Cliente.Nombre" @oninput="Ocultar" class="form-control" onforminput="20" />
+                    <ValidationMessage For="@(() => Cliente.Nombre)" />
+                </div>
+                @*Celular*@
+                <div class="mb-3">
+                    <label class="form-label" for="Soliciatdo Por">Celular</label>
+                    <InputText @bind-Value="Cliente.Celular" @oninput="Ocultar" class="form-control" />
+                    <ValidationMessage For="@(() => Cliente.Celular)" />
+                </div>
+                @*Teléfono*@
+                <div class="mb-3">
+                    <label class="form-label" for="Soliciatdo Por">Tel&eacute;fono</label>
+                    <InputText @bind-Value="Cliente.Telefono" @oninput="Ocultar" class="form-control" />
+                    <ValidationMessage For="@(() => Cliente.Telefono)" />
+                </div>
+                @*Email*@
+                <div class="mb-3">
+                    <label class="form-label" for="Soliciatdo Por">Email</label>
+                    <InputText @bind-Value="Cliente.Email" @oninput="Ocultar" class="form-control" />
+                    <ValidationMessage For="@(() => Cliente.Email)" />
+                </div>
+                @*RNC*@
+                <div class="mb-3">
+                    <label class="form-label" for="Soliciatdo Por">RNC</label>
+                    <InputText @bind-Value="Cliente.RNC" @oninput="Ocultar" class="form-control" />
+                    <ValidationMessage For="@(() => Cliente.RNC)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Soliciatdo Por">Direcci&oacute;n</label>
+                    <InputText @bind-Value="Cliente.Direccion" @oninput="Ocultar" class="form-control" />
+                    <ValidationMessage For="@(() => Cliente.Direccion)" />
+                </div>
+                @if (Mensaje != null)
+                {
+                    <p class="text-danger">@Mensaje</p>
+                }
+            </div>
+            <div class="card-footer d-flex justify-content-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus-fill fs-6" @onclick="Nuevo">Nuevo</button>
+                    <NavLink href="/Clientes/ConsultaClientes">
+                        <button type="submit" class="btn btn-outline-success bi bi-floppy-fill">Guardar</button>
+                    </NavLink>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+@code {
+
+    public Clientes Cliente { get; set; } = new Clientes();
+    public string Mensaje = string.Empty;
+
+    public async Task Buscar()
+    {
+        var encontrado = await clienteService.Buscar(Cliente.ClienteId);
+        if (encontrado != null)
+        {
+            Cliente = encontrado;
+            Mensaje = string.Empty;
+        }
+        else
+            Mensaje = "No se encuentra el id";
+    }
+
+    public async Task Guardar()
+    {
+        var guardo = await clienteService.Save(Cliente);
+        if (guardo)
+        {
+            Mensaje = "Guardó correctamente";
+            Nuevo();
+        }
+        else
+            Mensaje = "No se guardó correctamente";
+    }
+    public async Task Eliminar()
+    {
+        var eliminado = await clienteService.Delete(Cliente.ClienteId);
+        if (eliminado)
+        {
+            Nuevo();
+            Mensaje = "Eliminado correctamente";
+        }
+        else
+        {
+            Mensaje = "No se pudo eliminar";
+        }
+
+    }
+    public void Nuevo()
+    {
+        Cliente = new Clientes();
+    }
+    public void Ocultar()
+    {
+        Mensaje = string.Empty;
+    }
+}
