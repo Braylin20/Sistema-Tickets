@@ -1,4 +1,4 @@
-﻿@page "/Prioridades"
+﻿@page "/Prioridades/{PrioridadId:int}"
 @inject PrioridadesService prioridadService
 @rendermode InteractiveServer
 
@@ -23,7 +23,7 @@
                 <div class="mb-3">
                     <label class="form-label" for="Soliciatdo Por">Descripci&oacute;n</label>
                     <InputText @bind-Value="Prioridad.Descripcion" @oninput="Ocultar" class="form-control" />
-                    <ValidationMessage For="@(() => Prioridad.Descripcion)"/>
+                    <ValidationMessage For="@(() => Prioridad.Descripcion)" />
                 </div>
                 @*Días Compromiso*@
                 <div class="mb-3">
@@ -46,14 +46,16 @@
             </div>
         </div>
     </div>
-</EditForm> 
+</EditForm>
 
 @code
 {
-   
-    public Prioridades Prioridad{get; set;}= new Prioridades();
-    public string Mensaje{ get; set; } = string.Empty;
+    [Parameter]
+    public int PrioridadId { get; set; }
+    public Prioridades Prioridad { get; set; } = new Prioridades();
+    public string Mensaje { get; set; } = string.Empty;
 
+    protected override async Task OnInitializedAsync() => Prioridad = await prioridadService.FindAsync(PrioridadId);
     public async Task Buscar()
     {
         var encontrado = await prioridadService.FindAsync(Prioridad.PrioridadId);
@@ -80,7 +82,8 @@
         }
     }
 
-    public async Task Eliminar(){
+    public async Task Eliminar()
+    {
         var eliminado = await prioridadService.Delete(Prioridad.PrioridadId);
         if (eliminado)
         {
@@ -98,9 +101,9 @@
         this.Prioridad = new Prioridades();
     }
 
-    public void Ocultar(){
+    public void Ocultar()
+    {
         Mensaje = string.Empty;
     }
 }
-
 

@@ -1,0 +1,22 @@
+﻿@page "/ConsultaPrioridades/InfoPrioridad/{PrioridadId:int}"
+@inject PrioridadesService prioridadService
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5>Detalles</h5>
+        </div>
+        <div class="card-body">
+            <h6>ID de Prioridad: @Prioridad.PrioridadId</h6>
+            <p>Descripción: @Prioridad.Descripcion</p>
+            <p>Días de Compromiso: @Prioridad.DíasCompromiso</p>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int PrioridadId { get; set; }
+    public Prioridades Prioridad  = new Prioridades();
+
+    protected override async Task OnInitializedAsync() => Prioridad = await prioridadService.FindAsync(PrioridadId);
+}
