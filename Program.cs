@@ -20,8 +20,8 @@ namespace RegPrioridades
             builder.Services.AddDbContext<Contexto>(options => 
                 options.UseSqlite(ConStr));
 
-            builder.Services.AddScoped<PrioridadesBLL>();
-            builder.Services.AddScoped<ClientesBLL>();
+            builder.Services.AddScoped<PrioridadesService>();
+            builder.Services.AddScoped<ClientesService>();
 
             var app = builder.Build();
 
