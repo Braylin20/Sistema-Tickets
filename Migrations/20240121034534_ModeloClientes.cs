@@ -17,11 +17,11 @@ namespace RegPrioridades.Migrations
                     ClienteId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(type: "TEXT", nullable: false),
-                    Teléfono = table.Column<string>(type: "TEXT", nullable: false),
+                    Telefono = table.Column<string>(type: "TEXT", nullable: false),
                     Celular = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     RNC = table.Column<string>(type: "TEXT", nullable: false),
-                    Dirección = table.Column<string>(type: "TEXT", nullable: false)
+                    Direccion = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
