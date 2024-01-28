@@ -1,0 +1,96 @@
+﻿@page "/ConsultaCliente/EliminarCliente/{ClienteId:int}"
+@inject ClientesService clienteService
+@rendermode InteractiveServer
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h3>Registro Prioridades</h3>
+        </div>
+        <div class="card-body">
+            @*Cliente Id*@
+            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                <label>Cliente Id</label>
+                <div class="input-group mb-3">
+                    <InputNumber @bind-Value="Cliente.ClienteId"  class="form-control" min="0" aria-describedby=" BotonBuscar" />
+                </div>
+            </div>
+            @*Nombre*@
+            <div class="mb-3">
+                <label class="form-label" for="Soliciatdo Por">Nombre</label>
+                <InputText @bind-Value="Cliente.Nombre" class="form-control" onforminput="20" />
+            </div>
+            @*Celular*@
+            <div class="mb-3">
+                <label class="form-label" for="Soliciatdo Por">Celular</label>
+                <InputText @bind-Value="Cliente.Celular"  class="form-control" />
+            </div>
+            @*Teléfono*@
+            <div class="mb-3">
+                <label class="form-label" for="Soliciatdo Por">Tel&eacute;fono</label>
+                <InputText @bind-Value="Cliente.Telefono" class="form-control" />
+            </div>
+            @*Email*@
+            <div class="mb-3">
+                <label class="form-label" for="Soliciatdo Por">Email</label>
+                <InputText @bind-Value="Cliente.Email"  class="form-control" />
+            </div>
+            @*RNC*@
+            <div class="mb-3">
+                <label class="form-label" for="Soliciatdo Por">RNC</label>
+                <InputText @bind-Value="Cliente.RNC"  class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Soliciatdo Por">Direcci&oacute;n</label>
+                <InputText @bind-Value="Cliente.Direccion"  class="form-control" />
+            </div>
+            @if (Mensaje != null)
+            {
+                <p class="text-danger">@Mensaje</p>
+            }
+        </div>
+        <div class="card-footer d-flex justify-content-center">
+            <div class="btn-group">
+                @if (!elimino)
+                {
+                    <a href="/Clientes/ConsultaClientes" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
+                }
+                else
+                {
+                    <a href="/Clientes/ConsultaClientes" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public int ClienteId { get; set; }
+
+    public Clientes Cliente = new Clientes();
+    public string Mensaje = string.Empty;
+    public bool elimino = false;
+
+    protected override async Task OnInitializedAsync() => Cliente = await clienteService.FindAsync(ClienteId);
+
+    public async Task Eliminar()
+    {
+        var eliminado = await clienteService.Delete(Cliente.ClienteId);
+        if (eliminado)
+        {
+            Mensaje = "Se eliminó correctamente";
+            Nuevo();
+            elimino = true;
+        }
+        else
+        {
+            Mensaje = "Debe agregar un dato para eliminarlo";
+            elimino = false;
+        }
+    }
+    public void Nuevo()
+    {
+        this.Cliente = new Clientes();
+    }
+}

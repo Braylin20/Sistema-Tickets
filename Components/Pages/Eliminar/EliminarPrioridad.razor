@@ -55,6 +55,7 @@
     public Prioridades Prioridad = new Prioridades();
     public string Mensaje = string.Empty;
     public bool elimino = false;
+
     protected override async Task OnInitializedAsync() => Prioridad = await prioridadService.FindAsync(PrioridadId);
 
     public async Task Eliminar()
