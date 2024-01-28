@@ -34,11 +34,19 @@ namespace RegPrioridades.BLL
         {
             return await _contexto.Prioridades.FindAsync(id);
         }
+        //public async Task<bool> Delete(int id)
+        //{
+        //    var prioridad = _contexto.Prioridades.Find(id);
+
+        //    _contexto.Prioridades.Remove(prioridad!);
+        //    var deleted = await _contexto.SaveChangesAsync() > 0;
+        //    return deleted;
+        //}
         public async Task<bool> Delete(int prioridad)
         {
-            
+
             var eliminado = await _contexto.Prioridades.FindAsync(prioridad);
-            if(eliminado == null)
+            if (eliminado == null)
             {
                 return false;
             }
@@ -47,7 +55,7 @@ namespace RegPrioridades.BLL
                 _contexto.Prioridades.Remove(eliminado);
                 return _contexto.SaveChanges() > 0;
             }
-            
+
         }
         public async Task<List<Prioridades>> getPrioridades()
         {
