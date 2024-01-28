@@ -1,0 +1,55 @@
+﻿@page "/ConsultaPrioridades"
+@inject PrioridadesService prioridadService
+
+<div class="container">
+    <div class="card-header">
+        <h3>Consulta Prioridades</h3>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Descripci&oacute;n</th>
+                <th>D&iacute;s Prioridad</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var p in listaPrioridades)
+            {
+                <tr>
+                    <td scope="row">@p.PrioridadId</td>
+                    <td scope="row">@p.Descripcion</td>
+                    <td scope="row">@p.DíasCompromiso</td>
+                    <td>
+                        <a href="ConsultaPrioridades/EliminarPrioridad/@p.PrioridadId" class="btn btn-danger bi bi-trash-fill"></a>
+                        <a href="/Prioridades/@p.PrioridadId" scope="row" class="btn btn-primary bi-box-arrow-up-right"></a>
+                        <a href="/ConsultaPrioridades/InfoPrioridad/@p.PrioridadId" scope="row" class="btn btn-warning bi bi-info-square-fill"></a>
+                    </td>
+                </tr>
+            }  
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public int PrioridadId { get; set; }
+    public List<Prioridades> listaPrioridades = new List<Prioridades>();
+    public Prioridades Prioridad = new Prioridades();
+    public string Mensaje = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaPrioridades = await prioridadService.getPrioridades();
+    }
+    public async Task Eliminar(Prioridades prioridad)
+    {
+        var eliminado = await prioridadService.Delete(prioridad.PrioridadId);
+        if(eliminado)
+        {
+            Mensaje = "Se eliminó correctamente";
+        }
+    }
+    
+}
