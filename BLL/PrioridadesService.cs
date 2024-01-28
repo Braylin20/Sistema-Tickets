@@ -4,17 +4,17 @@ using RegPrioridades.Models;
 
 namespace RegPrioridades.BLL
 {
-    public class PrioridadesBLL
+    public class PrioridadesService
     {
         private readonly Contexto _contexto;
-        public PrioridadesBLL(Contexto contexto)
+        public PrioridadesService(Contexto contexto)
         {
             _contexto = contexto;
         }
         public async Task<bool> Existe(Prioridades prioridad)
         {
             bool existe = await _contexto.Prioridades.
-                AnyAsync(p => p.Descripción.ToLower() ==prioridad.Descripción.ToLower());
+                AnyAsync(p => p.Descripcion.ToLower() ==prioridad.Descripcion.ToLower());
             return existe;
         }
         public async Task<bool> Save(Prioridades prioridad)
@@ -34,17 +34,17 @@ namespace RegPrioridades.BLL
         {
             return await _contexto.Prioridades.FindAsync(id);
         }
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int prioridad)
         {
             
-            var prioridad = await _contexto.Prioridades.FindAsync(id);
-            if(prioridad == null)
+            var eliminado = await _contexto.Prioridades.FindAsync(prioridad);
+            if(eliminado == null)
             {
                 return false;
             }
             else
             {
-                _contexto.Prioridades.Remove(prioridad);
+                _contexto.Prioridades.Remove(eliminado);
                 return _contexto.SaveChanges() > 0;
             }
             

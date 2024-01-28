@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace RegPrioridades.BLL
 {
-    public class ClientesBLL
+    public class ClientesService
     {
         private readonly Contexto _contexto;
 
-        public ClientesBLL(Contexto contexto)
+        public ClientesService(Contexto contexto)
         {
             _contexto = contexto;
         }
