@@ -22,7 +22,9 @@
                     <td scope="row">@p.Descripcion</td>
                     <td scope="row">@p.DíasCompromiso</td>
                     <td>
-                        <a href="ConsultaPrioridades/EliminarPrioridad/@p.PrioridadId" class="btn btn-outline-danger bi bi-trash-fill"></a>
+                        <a href="ConsultaPrioridades/EliminarPrioridad/@p.PrioridadId" class="btn btn-danger bi bi-trash-fill"></a>
+                        <a href="/Prioridades/@p.PrioridadId" scope="row" class="btn btn-primary bi-box-arrow-up-right"></a>
+                        <a href="/ConsultaPrioridades/InfoPrioridad/@p.PrioridadId" scope="row" class="btn btn-warning bi bi-info-square-fill"></a>
                     </td>
                 </tr>
             }  
