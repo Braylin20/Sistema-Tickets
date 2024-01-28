@@ -1,0 +1,44 @@
+﻿@page "/Clientes/ConsultaClientes"
+@inject ClientesService clienteBLL
+
+<div Card class="Container">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h3>Consulta Clientes</h3>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ClienteId</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Celular</th>
+                    <th scope="col">Tel&eacute;fono</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">RNC</th>
+                    <th scope="col">Direcci&oacute;n</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var c in Clientes)
+                {
+                    <tr>
+                        <td scope="row">@c.ClienteId</td>
+                        <td scope="row">@c.Nombre</td>
+                        <td scope="row">@c.Celular</td>
+                        <td scope="row">@c.Telefono</td>
+                        <td scope="row">@c.Email</td>
+                        <td scope="row">@c.RNC</td>
+                        <td scope="row">@c.Direccion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@code {
+    public List<Clientes> Clientes = new List<Clientes>();
+    protected override async Task OnInitializedAsync()
+    {
+        Clientes = await clienteBLL.getClientes();
+    }
+}

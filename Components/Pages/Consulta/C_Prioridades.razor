@@ -1,0 +1,53 @@
+﻿@page "/ConsultaPrioridades"
+@inject PrioridadesService prioridadService
+@inject NavigationManager NavigationManager
+<div class="container">
+    <div class="card-header">
+        <h3>Consulta Prioridades</h3>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Descripci&oacute;n</th>
+                <th>D&iacute;s Prioridad</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var p in listaPrioridades)
+            {
+                <tr>
+                    <td scope="row">@p.PrioridadId</td>
+                    <td scope="row">@p.Descripcion</td>
+                    <td scope="row">@p.DíasCompromiso</td>
+                    <td>
+                        <a href="ConsultaPrioridades/EliminarPrioridad/@p.PrioridadId" class="btn btn-outline-danger bi bi-trash-fill"></a>
+                    </td>
+                </tr>
+            }  
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public int PrioridadId { get; set; }
+    public List<Prioridades> listaPrioridades = new List<Prioridades>();
+    public Prioridades Prioridad = new Prioridades();
+    public string Mensaje = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaPrioridades = await prioridadService.getPrioridades();
+    }
+    public async Task Eliminar(Prioridades prioridad)
+    {
+        var eliminado = await prioridadService.Delete(prioridad.PrioridadId);
+        if(eliminado)
+        {
+            Mensaje = "Se eliminó correctamente";
+        }
+    }
+    
+}
