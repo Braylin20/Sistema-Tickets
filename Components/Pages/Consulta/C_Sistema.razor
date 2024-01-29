@@ -1,0 +1,41 @@
+﻿@page "/Sistemas/ConsultaSistema"
+@inject SistemasService sistemasService
+
+
+<div class="container">
+    <div class="card-header">
+        <h3>Consulta Sistema</h3>
+    </div>
+    <table class=" table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Sistema Id</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Sistema in ListaSistemas)
+            {
+                <tr>
+                    <td>@Sistema.SistemaId</td>
+                    <td>@Sistema.Nombre</td>
+                    <td>@Sistema.Descripcion</td>
+                    <td>
+                        <a href="/Sistemas/EliminarSistema/@Sistema.SistemaId" class="btn btn-danger bi bi-trash-fill"></a>
+                        <a href="EditSistemas/@Sistema.SistemaId" scope="row" class="btn btn-primary bi-box-arrow-up-right"></a>
+                        <a href="/ConsultaSistema/InfoSistema/@Sistema.SistemaId" scope="row" class="btn btn-warning bi bi-info-square-fill"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    public List<Sistemas> ListaSistemas { get; set; } = new List<Sistemas>();
+
+    protected override async Task OnInitializedAsync() => ListaSistemas = await sistemasService.GetSistemas();
+
+}

@@ -43,6 +43,7 @@
     {
         listaPrioridades = await prioridadService.getPrioridades();
     }
+
     public async Task Eliminar(Prioridades prioridad)
     {
         var eliminado = await prioridadService.Delete(prioridad.PrioridadId);
