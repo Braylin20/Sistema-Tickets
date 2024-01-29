@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RegPrioridades.BLL;
 using RegPrioridades.Components;
 using RegPrioridades.DAL;
+using RegPrioridades.Services;
 
 namespace RegPrioridades
 {
@@ -22,6 +23,7 @@ namespace RegPrioridades
 
             builder.Services.AddScoped<PrioridadesService>();
             builder.Services.AddScoped<ClientesService>();
+            builder.Services.AddScoped<TicketsService>();
 
             var app = builder.Build();
 
