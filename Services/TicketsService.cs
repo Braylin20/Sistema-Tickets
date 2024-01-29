@@ -43,5 +43,11 @@ namespace RegPrioridades.Services
         {
             return await _contexto.Tickets.ToListAsync();
         }
+        public async Task<Tickets?> Buscar(int ticketId)
+        {
+            return await _contexto.Tickets
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.TicketId== ticketId);
+        }
     }
 }
