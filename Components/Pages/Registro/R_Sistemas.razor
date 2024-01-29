@@ -1,0 +1,84 @@
+﻿@page "/Sistemas"
+@inject SistemasService sistemasService
+@rendermode InteractiveServer
+
+<EditForm Model="Sistema" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator/>
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-header">
+                <h3>Registro Sistemas</h3>
+            </div>
+            <div class="card-body">
+                <div class="col-xl-4">
+                    <label>Sistema Id</label>
+                    <div class="input-group mb-3">
+                        <InputNumber @bind-Value="Sistema.SistemaId" @oninput="Ocultar" class="form-control" min="0"/>
+                        <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscar"><i class="bi bi-search" /></button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Nombre</label>
+                    <InputText @bind-Value="Sistema.Nombre" @oninput="Ocultar" class="form-control" />
+                    <ValidationMessage For="@(() => Sistema.Nombre)" />
+                </div>
+                <div class="mb-3">
+                    <label>Descripción</label>
+                    <InputText @bind-Value="Sistema.Descripcion" @oninput="Ocultar" class="form-control" />
+                    <ValidationMessage For="@(() => Sistema.Descripcion)" />
+                </div>
+                @if (Mensaje != null)
+                {
+                    <p class="text-danger">@Mensaje</p>
+                }
+            </div>
+            <div class="card-footer d-flex justify-content-center">
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus-fill fs-6" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" class="btn btn-outline-success bi bi-floppy-fill">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</EditForm>
+
+
+@code {
+    public Sistemas Sistema { get; set; } = new Sistemas();
+    public string Mensaje { get; set; } = string.Empty;
+
+    public async Task Buscar()
+    {
+        var encontrado = await sistemasService.FindAsync(Sistema.SistemaId);
+
+        if (encontrado != null)
+        {
+            Sistema = encontrado;
+        }
+        else
+            Mensaje = "No se encontró el registro";
+        
+    }
+
+    public async Task Guardar()
+    {
+        var guardo = await sistemasService.Save(Sistema);
+        if(guardo)
+        {
+            Mensaje = "Se guardó correctamente";
+            Nuevo();
+        }
+        else
+            Mensaje = "No se guardó correctamente";
+    }
+
+    public void Nuevo()
+    {
+        Sistema = new Sistemas();
+    }
+    public void Ocultar()
+    {
+        Mensaje = string.Empty;
+    }
+}

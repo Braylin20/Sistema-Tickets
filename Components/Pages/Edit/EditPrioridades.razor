@@ -1,5 +1,5 @@
-﻿@page "/Prioridades"
-@inject PrioridadesBLL prioridadBLL
+﻿@page "/Prioridades/{PrioridadId:int}"
+@inject PrioridadesService prioridadService
 @rendermode InteractiveServer
 
 <PageTitle>Registro Prioridades</PageTitle>
@@ -22,8 +22,8 @@
                 @*Descripción*@
                 <div class="mb-3">
                     <label class="form-label" for="Soliciatdo Por">Descripci&oacute;n</label>
-                    <InputText @bind-Value="Prioridad.Descripción" @oninput="Ocultar" class="form-control" />
-                    <ValidationMessage For="@(() => Prioridad.Descripción)"/>
+                    <InputText @bind-Value="Prioridad.Descripcion" @oninput="Ocultar" class="form-control" />
+                    <ValidationMessage For="@(() => Prioridad.Descripcion)" />
                 </div>
                 @*Días Compromiso*@
                 <div class="mb-3">
@@ -40,22 +40,24 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-primary bi bi-file-earmark-plus-fill fs-6" @onclick="Nuevo">Nuevo</button>
                     <button type="submit" class="btn btn-outline-success bi bi-floppy-fill">Guardar</button>
-                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
+
                 </div>
             </div>
         </div>
     </div>
-</EditForm> 
+</EditForm>
 
 @code
 {
     [Parameter]
-    public Prioridades Prioridad{get; set;}= new Prioridades();
-    public string Mensaje{ get; set; } = string.Empty;
+    public int PrioridadId { get; set; }
+    public Prioridades Prioridad { get; set; } = new Prioridades();
+    public string Mensaje { get; set; } = string.Empty;
 
+    protected override async Task OnInitializedAsync() => Prioridad = await prioridadService.FindAsync(PrioridadId);
     public async Task Buscar()
     {
-        var encontrado = await prioridadBLL.FindAsync(Prioridad.PrioridadId);
+        var encontrado = await prioridadService.FindAsync(Prioridad.PrioridadId);
         if (encontrado != null)
         {
             Prioridad = encontrado;
@@ -67,29 +69,26 @@
 
     public async Task Guardar()
     {
-        var guardo = await prioridadBLL.Save(Prioridad);
+        var guardo = await prioridadService.Save(Prioridad);
         if (guardo)
         {
             Mensaje = "Se guardó correctamente";
             Nuevo();
         }
         else
-        {
             Mensaje = "Ya existe una prioridad";
-        }
     }
 
-    public async Task Eliminar(){
-        var eliminado = await prioridadBLL.Delete(Prioridad.PrioridadId);
+    public async Task Eliminar()
+    {
+        var eliminado = await prioridadService.Delete(Prioridad.PrioridadId);
         if (eliminado)
         {
             Mensaje = "Se eliminó correctamente";
             Nuevo();
         }
         else
-        {
             Mensaje = "Debe agregar un dato para eliminarlo";
-        }
     }
 
     public void Nuevo()
@@ -97,9 +96,9 @@
         this.Prioridad = new Prioridades();
     }
 
-    public void Ocultar(){
+    public void Ocultar()
+    {
         Mensaje = string.Empty;
     }
 }
-
 

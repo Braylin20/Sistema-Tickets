@@ -1,0 +1,32 @@
+﻿@page "/Ticket/InfoTicket/{TicketId:int}"
+@inject TicketsService ticketService
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5>Detalles del ticket</h5>
+        </div>
+        <div class="card-body">
+            <p>ID de Ticket: @Ticket.TicketId</p>
+            <p>Fecha: @Ticket.Fecha</p>
+            <p>Cliente Id: @Ticket.ClientesId</p>
+            <p>Sistema Id: @Ticket.SistemaId</p>
+            <p>Prioridad Id: @Ticket.PrioridadesId</p>
+            <p>Solicitado Por: @Ticket.SolicitadoPor</p>
+            <p>Asunto: @Ticket.Asunto</p>
+            <p>Descripci&oacute;n: @Ticket.Descripcion</p>
+        </div>
+        <div class="card-footer">
+            <div class="btn-group">
+                <a href="/Ticket/ConsultaTicket" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public int TicketId { get; set; }
+    public Tickets Ticket = new Tickets();
+
+    protected override async Task OnInitializedAsync() => Ticket = await ticketService.FindAsync(TicketId);
+}

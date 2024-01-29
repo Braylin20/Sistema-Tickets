@@ -1,5 +1,5 @@
-﻿@page "/ConsultaClientes"
-@inject ClientesBLL clienteBLL
+﻿@page "/Clientes/ConsultaClientes"
+@inject ClientesService clienteBLL
 
 <div Card class="Container">
     <div class="card shadow-lg">
@@ -7,7 +7,7 @@
             <h3>Consulta Clientes</h3>
         </div>
         <table class="table table-bordered table-hover">
-            <thead>
+            <thead class="table-dark">
                 <tr>
                     <th scope="col">ClienteId</th>
                     <th scope="col">Nombre</th>
@@ -16,6 +16,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">RNC</th>
                     <th scope="col">Direcci&oacute;n</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,10 +26,15 @@
                         <td scope="row">@c.ClienteId</td>
                         <td scope="row">@c.Nombre</td>
                         <td scope="row">@c.Celular</td>
-                        <td scope="row">@c.Teléfono</td>
+                        <td scope="row">@c.Telefono</td>
                         <td scope="row">@c.Email</td>
                         <td scope="row">@c.RNC</td>
-                        <td scope="row">@c.Dirección</td>
+                        <td scope="row">@c.Direccion</td>
+                        <td scope="row">
+                            <a href="ConsultaCliente/EliminarCliente/@c.ClienteId" class="btn btn-danger bi bi-trash-fill"></a>
+                            <a href="Clientes/EditarCliente/@c.ClienteId" scope="row" class="btn btn-primary bi-box-arrow-up-right"></a>
+                            <a href="/ConsultaClientes/InfoClientes/@c.ClienteId" scope="row" class="btn btn-warning bi bi-info-square-fill"></a>
+                        </td>
                     </tr>
                 }
             </tbody>

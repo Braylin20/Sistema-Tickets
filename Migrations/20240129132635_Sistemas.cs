@@ -5,27 +5,23 @@
 namespace RegPrioridades.Migrations
 {
     /// <inheritdoc />
-    public partial class ModeloClientes : Migration
+    public partial class Sistemas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Clientes",
+                name: "Sistemas",
                 columns: table => new
                 {
-                    ClienteId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SistemaId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(type: "TEXT", nullable: false),
-                    Telefono = table.Column<string>(type: "TEXT", nullable: false),
-                    Celular = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    RNC = table.Column<string>(type: "TEXT", nullable: false),
-                    Direccion = table.Column<string>(type: "TEXT", nullable: false)
+                    Descripcion = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clientes", x => x.ClienteId);
+                    table.PrimaryKey("PK_Sistemas", x => x.SistemaId);
                 });
         }
 
@@ -33,7 +29,7 @@ namespace RegPrioridades.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "Sistemas");
         }
     }
 }

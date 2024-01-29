@@ -1,0 +1,81 @@
+﻿@page "/Sistemas/EliminarSistema/{SistemaId:int}"
+@inject SistemasService sistemasService
+@rendermode InteractiveServer
+
+<EditForm Model="Sistema">
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-header">
+                <h3>Registro Sistemas</h3>
+            </div>
+            <div class="card-body">
+                <div class="col-xl-4">
+                    <label>Sistema Id</label>
+                    <div class="input-group mb-3">
+                        <InputNumber @bind-Value="Sistema.SistemaId" @oninput="Ocultar" class="form-control" min="@Sistema.SistemaId"max="@Sistema.SistemaId" />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Nombre</label>
+                    <InputText @bind-Value="Sistema.Nombre" @oninput="Ocultar" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label>Descripción</label>
+                    <InputText @bind-Value="Sistema.Descripcion" @oninput="Ocultar" class="form-control" />
+                </div>
+                @if (Mensaje != null)
+                {
+                    <p class="text-danger">@Mensaje</p>
+                }
+            </div>
+            <div class="card-footer d-flex justify-content-center">
+                @if (!elimino)
+                {
+                    <a href="/Sistemas/ConsultaSistema" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
+                }
+                else
+                {
+                    <a href="/Sistemas/ConsultaSistema" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+                }
+            </div>
+        </div>
+    </div>
+
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int SistemaId { get; set; }
+    public Sistemas Sistema { get; set; } = new Sistemas();
+    public string Mensaje { get; set; } = string.Empty;
+    public bool elimino { get; set; } = false;
+
+    protected override async Task OnInitializedAsync() => Sistema = await sistemasService.FindAsync(SistemaId);
+   
+    public async Task Eliminar()
+    {
+        var eliminado = await sistemasService.Delete(Sistema.SistemaId);
+        if (eliminado)
+        {
+            Nuevo();
+            Mensaje = "Eliminado correctamente";
+            elimino = true;
+        }
+        else
+        {
+            Mensaje = "No se pudo eliminar";
+            elimino = false;    
+        }
+    }
+
+    public void Nuevo()
+    {
+        Sistema = new Sistemas();
+    }
+    public void Ocultar()
+    {
+        Mensaje = string.Empty;
+    }
+}

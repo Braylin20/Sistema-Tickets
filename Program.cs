@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RegPrioridades.BLL;
 using RegPrioridades.Components;
 using RegPrioridades.DAL;
+using RegPrioridades.Services;
 
 namespace RegPrioridades
 {
@@ -20,8 +21,10 @@ namespace RegPrioridades
             builder.Services.AddDbContext<Contexto>(options => 
                 options.UseSqlite(ConStr));
 
-            builder.Services.AddScoped<PrioridadesBLL>();
-            builder.Services.AddScoped<ClientesBLL>();
+            builder.Services.AddScoped<PrioridadesService>();
+            builder.Services.AddScoped<ClientesService>();
+            builder.Services.AddScoped<TicketsService>();
+            builder.Services.AddScoped<SistemasService>();
 
             var app = builder.Build();
 

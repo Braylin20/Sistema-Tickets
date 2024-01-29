@@ -1,0 +1,30 @@
+﻿@page "/ConsultaClientes/InfoClientes/{PrioridadId:int}"
+@inject ClientesService clienteService
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5>Detalles del cliente</h5>
+        </div>
+        <div class="card-body">
+            <h6>ID de Cliente: @Cliente.ClienteId</h6>
+            <p>Nombre: @Cliente.Nombre</p>
+            <p>Celular: @Cliente.Celular</p>
+            <p>Email: @Cliente.Email</p>
+            <p>RNC: @Cliente.RNC</p>
+            <p>Direcci&oacute;n @Cliente.Direccion</p>
+        </div>
+        <div class="card-footer">
+            <div class="btn-group">
+                <a href="/Clientes/ConsultaClientes" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int PrioridadId { get; set; }
+    public Clientes Cliente = new Clientes();
+
+    protected override async Task OnInitializedAsync() => Cliente = await clienteService.FindAsync(PrioridadId);
+}

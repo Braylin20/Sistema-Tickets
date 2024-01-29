@@ -1,0 +1,113 @@
+﻿@page "/Ticket/EliminarTicket/{TicketId:int}"
+@inject TicketsService ticketService
+@rendermode InteractiveServer
+
+<PageTitle>Registro Ticket</PageTitle>
+
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h3>Registro Ticket</h3>
+        </div>
+        <div class="card-body">
+            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                <label>Ticket Id</label>
+                <div class="input-group mb-3">
+                    <InputNumber @bind-Value="Ticket.TicketId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fecha</label>
+                <InputDate @bind-Value="Ticket.Fecha" class="form-control" />
+                
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Cliente Id</label>
+                <InputNumber @bind-Value="Ticket.ClientesId" @oninput="Ocultar" class="form-control" aria-describedby=" BotonBuscar"/>
+                
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Sistema Id</label>
+                <InputNumber @bind-Value="Ticket.SistemaId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar" />
+                
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Prioridad Id</label>
+                <InputNumber @bind-Value="Ticket.PrioridadesId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar"/>
+                
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Solicitado Por</label>
+                <InputText @bind-Value="Ticket.SolicitadoPor" @oninput="Ocultar" class="form-control" />
+                
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Asunto</label>
+                <InputText @bind-Value="Ticket.Asunto" @oninput="Ocultar" class="form-control" />
+                
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Descripci&oacute;n</label>
+                <InputText @bind-Value="Ticket.Descripcion" @oninput="Ocultar" class="form-control" />
+                
+            </div>
+            @if (Mensaje != null)
+            {
+                <p class="text-danger">@Mensaje</p>
+            }
+        </div>
+        <div class="card-footer d-flex justify-content-center">
+            <div class="btn-group">
+                @if (!elimino)
+                {
+                    <a href="/Ticket/ConsultaTicket" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
+                }
+                else
+                {
+                    <a href="/Ticket/ConsultaTicket" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter] 
+    public int TicketId { get; set; }
+    public Tickets Ticket { get; set; } = new Tickets();
+    public string Mensaje = string.Empty;
+    public List<Tickets> Tickets{ get; set; } = new List<Tickets>();
+    public bool elimino = false;
+
+    protected override async Task OnInitializedAsync()=> Ticket = await ticketService.FindAsync(TicketId);
+    
+  
+    public async Task Eliminar()
+    {
+        var eliminado = await ticketService.Delete(Ticket.TicketId);
+        if (eliminado)
+        {
+            Nuevo();
+            Mensaje = "Eliminado correctamente";
+            elimino = true;
+        }
+        else
+        {
+            Mensaje = "No se pudo eliminar";
+            elimino = false;
+        }
+
+    }
+    public void Nuevo()
+    {
+        Ticket = new Tickets();
+    }
+    public void Ocultar()
+    {
+        Mensaje = string.Empty;
+    }
+}
+

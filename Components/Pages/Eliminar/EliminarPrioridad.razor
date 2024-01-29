@@ -1,0 +1,81 @@
+﻿@page "/ConsultaPrioridades/EliminarPrioridad/{PrioridadId:int}"
+@inject PrioridadesService prioridadService
+@rendermode InteractiveServer
+
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h5>Seguro que quieres eliminar esta prioridad?</h5>
+        </div>
+        <div class="card-body">
+            @*Prioridades Id*@
+            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                <label>Prioridad Id</label>
+                <div class="input-group mb-3">
+                    <InputNumber @bind-Value="Prioridad.PrioridadId" class="form-control" min="@Prioridad.PrioridadId" max="@Prioridad.PrioridadId" aria-describedby=" BotonBuscar" />
+                </div>
+            </div>
+            @*Descripción*@
+            <div class="mb-3">
+                <label class="form-label" for="Soliciatdo Por">Descripci&oacute;n</label>
+                <InputText @bind-Value="Prioridad.Descripcion" class="form-control" />
+
+            </div>
+            @*Días Compromiso*@
+            <div class="mb-3">
+                <label class="form-label" for="Días">D&iacute;as</label>
+                <InputNumber @bind-Value="Prioridad.DíasCompromiso" class="form-check-label" min="@Prioridad.DíasCompromiso" max="@Prioridad.DíasCompromiso" />
+            </div>
+            @if (Mensaje != null)
+            {
+                <p class="text-danger">@Mensaje</p>
+            }
+        </div>
+        <div class="card-footer d-flex justify-content-center">
+            <div class="btn-group">
+                @if (!elimino)
+                {
+                    <a href="/ConsultaPrioridades" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
+                }else{
+                    <a href="/ConsultaPrioridades" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+                }
+                    
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int PrioridadId { get; set; }
+    public Prioridades Prioridad = new Prioridades();
+    public string Mensaje = string.Empty;
+    public bool elimino = false;
+
+    protected override async Task OnInitializedAsync() => Prioridad = await prioridadService.FindAsync(PrioridadId);
+
+    public async Task Eliminar()
+    {
+        var eliminado = await prioridadService.Delete(Prioridad.PrioridadId);
+        if (eliminado)
+        {
+            Mensaje = "Se eliminó correctamente";
+            Nuevo();
+            elimino = true;
+        }
+        else
+        {
+            Mensaje = "Debe agregar un dato para eliminarlo";
+            elimino = false;
+        }
+    }
+
+    public void Nuevo()
+    {
+        this.Prioridad = new Prioridades();
+    }
+}

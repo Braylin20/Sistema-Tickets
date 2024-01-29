@@ -1,0 +1,53 @@
+﻿@page "/Ticket/ConsultaTicket"
+@inject TicketsService ticketService
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h3>Consulta Ticket</h3>"
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">TicketId</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">ClienteId</th>
+                    <th scope="col">SistemaId</th>
+                    <th scope="col">PrioridadId</th>
+                    <th scope="col">Solicitado Por</th>
+                    <th scope="col">Asunto</th>
+                    <th scope="col">Descripci&oacute;n Por</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var t in Tickets)
+                {
+                    <tr>
+                        <td scope="row">@t.TicketId</td>
+                        <td scope="row">@t.Fecha</td>
+                        <td scope="row">@t.ClientesId</td>
+                        <td scope="row">@t.SistemaId</td>
+                        <td scope="row">@t.PrioridadesId</td>
+                        <td scope="row">@t.SolicitadoPor</td>
+                        <td scope="row">@t.Asunto</td>
+                        <td scope="row">@t.Descripcion</td>
+                        <td scope="row">
+                            <a href="/Ticket/EliminarTicket/@t.TicketId" class="btn btn-danger bi bi-trash-fill"></a>
+                            <a href="/Ticket/EditTicket/@t.TicketId" scope="row" class="btn btn-primary bi-box-arrow-up-right"></a>
+                            <a href="/Ticket/InfoTicket/@t.TicketId" scope="row" class="btn btn-warning bi bi-info-square-fill"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    public List<Tickets> Tickets = new List<Tickets>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tickets = await ticketService.GetTickets();
+    }
+}

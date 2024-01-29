@@ -6,7 +6,7 @@ namespace RegPrioridades.Models
         [Key]
         public int PrioridadId { get; set; }
         [Required(ErrorMessage = "El campo es requerido")]
-        public string Descripción { get; set; }
+        public string Descripcion { get; set; }
         [Required(ErrorMessage = "El campo es requerido")]
         public int DíasCompromiso { get; set; }
     }
