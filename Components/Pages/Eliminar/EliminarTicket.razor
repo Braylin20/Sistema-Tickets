@@ -11,38 +11,32 @@
             <h3>Registro Ticket</h3>
         </div>
         <div class="card-body">
-            @*Ticket Id*@
             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
                 <label>Ticket Id</label>
                 <div class="input-group mb-3">
                     <InputNumber @bind-Value="Ticket.TicketId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar" />
                 </div>
             </div>
-            @*Nombre*@
             <div class="mb-3">
                 <label class="form-label">Fecha</label>
                 <InputDate @bind-Value="Ticket.Fecha" class="form-control" />
                 
             </div>
-            @*Celular*@
             <div class="mb-3">
                 <label class="form-label">Cliente Id</label>
                 <InputNumber @bind-Value="Ticket.ClientesId" @oninput="Ocultar" class="form-control" aria-describedby=" BotonBuscar"/>
                 
             </div>
-            @*Teléfono*@
             <div class="mb-3">
                 <label class="form-label">Sistema Id</label>
                 <InputNumber @bind-Value="Ticket.SistemaId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar" />
                 
             </div>
-            @*Email*@
             <div class="mb-3">
                 <label class="form-label">Prioridad Id</label>
                 <InputNumber @bind-Value="Ticket.PrioridadesId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar"/>
                 
             </div>
-            @*RNC*@
             <div class="mb-3">
                 <label class="form-label">Solicitado Por</label>
                 <InputText @bind-Value="Ticket.SolicitadoPor" @oninput="Ocultar" class="form-control" />
