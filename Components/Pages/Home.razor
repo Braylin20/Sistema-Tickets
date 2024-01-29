@@ -1,31 +1,30 @@
 ﻿@page "/"
 
-
-
 <div class="container-sm">
     <div class="card">
         <div class="card-header">
-            <h3>Gestion de Ticket</h3>
+            <h3>Registro</h3>
         </div>
         <div class="card-body">
             <a href="Prioridades" class="btn btn-primary"> Crear Prioridad</a>
             <a href="Clientes" class="btn btn-primary">Crear Cliente</a>
             <a href="Ticket" class="btn btn-primary">Crear Ticket</a>
+            <a href="Sistemas" class="btn btn-primary">Crear Sistema</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3>Consulta</h3>
+        </div>
+        <div class="card-body">
+            <a href="/ConsultaPrioridades" class="btn btn-primary"> Consultar Prioridad</a>
+            <a href="/Clientes/ConsultaClientes" class="btn btn-primary">Consultar Cliente</a>
+            <a href="/Ticket/ConsultaTicket" class="btn btn-primary">Consultar Ticket</a>
+            <a href="/Sistemas/ConsultaSistema" class="btn btn-primary">Consultar Sistema</a>
         </div>
     </div>
 </div>
 
-
-
-<div class="btn-group">
-   
-</div>
-<div>
-    <a href="Clientes"> Crear Cliente</a>
-</div>
-<div>
-    <a href="Ticket"> Crear Ticket</a>
-</div>
 @code {
 
 }
