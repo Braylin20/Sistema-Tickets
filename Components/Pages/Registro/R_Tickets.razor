@@ -2,6 +2,7 @@
 @inject TicketsService ticketService
 @inject ClientesService clienteService
 @inject PrioridadesService prioridadService
+@inject SistemasService sistemaService
 @rendermode InteractiveServer
 
 <PageTitle>Registro Ticket</PageTitle>
@@ -42,7 +43,12 @@
                 @*Teléfono*@
                 <div class="mb-3">
                     <label class="form-label" >Sistema Id</label>
-                    <InputNumber @bind-Value="Ticket.SistemaId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar" />
+                    <InputSelect @bind-Value="Ticket.SistemaId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar">
+                        @foreach (var s in Sistemas)
+                        {
+                            <option value="@s.SistemaId">@s.SistemaId</option>
+                        }
+                    </InputSelect>
                     <ValidationMessage For="@(() => Ticket.SistemaId)" />
                 </div>
                 @*Email*@
@@ -93,11 +99,13 @@
     public string Mensaje = string.Empty;
     public List<Clientes> Clientes { get; set; } = new List<Clientes>();
     public List<Prioridades> Prioridades { get; set; } = new List<Prioridades>();
+    public List<Sistemas> Sistemas { get; set; } = new List<Sistemas>();
 
     protected override async Task OnInitializedAsync()
     {
         Clientes = await clienteService.getClientes();
         Prioridades = await prioridadService.getPrioridades();
+        Sistemas = await sistemaService.GetSistemas();
     }
     public async Task Buscar()
     {
