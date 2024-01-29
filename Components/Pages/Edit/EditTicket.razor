@@ -111,6 +111,7 @@
         else
             Mensaje = "No se guardó correctamente";
     }
+
     public async Task Eliminar()
     {
         var eliminado = await ticketService.Delete(Ticket.TicketId);
@@ -120,15 +121,15 @@
             Mensaje = "Eliminado correctamente";
         }
         else
-        {
             Mensaje = "No se pudo eliminar";
-        }
 
     }
+
     public void Nuevo()
     {
         Ticket = new Tickets();
     }
+
     public void Ocultar()
     {
         Mensaje = string.Empty;
