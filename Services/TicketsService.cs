@@ -6,7 +6,7 @@ namespace RegPrioridades.Services
 {
     public class TicketsService
     {
-        public Contexto _contexto { get; set; }
+        public readonly Contexto _contexto;
         public TicketsService(Contexto contexto)
         {
             _contexto = contexto;
