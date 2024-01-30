@@ -11,10 +11,13 @@ namespace RegPrioridades.Models
         [Required(ErrorMessage = "Este campo es requerido")]
         public DateTime Fecha { get; set; }
         [ForeignKey("Clientes")]
+        [Range(1, int.MaxValue, ErrorMessage = "Selecciona una Cliente")]
         public int ClientesId { get; set; }
-        [Required(ErrorMessage = "Este campo es requerido")]
+        [Range(1, int.MaxValue, ErrorMessage = "Selecciona una Sistema")]
+        [ForeignKey("Sistemas")]
         public int SistemaId { get; set; }
         [ForeignKey("Prioridades")]
+        [Range(1, int.MaxValue, ErrorMessage = "Selecciona una Prioridad")]
         public int PrioridadesId { get; set; }
         [Required(ErrorMessage = "Este campo es requerido")]
         public string? SolicitadoPor { get; set; }
