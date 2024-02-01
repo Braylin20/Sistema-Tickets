@@ -37,7 +37,7 @@
                 @if (!elimino)
                 {
                     <a href="/ConsultaPrioridades" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
-                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
+                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Delete">Eliminar</button>
                 }else{
                     <a href="/ConsultaPrioridades" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
                 }
@@ -58,7 +58,7 @@
 
     protected override async Task OnInitializedAsync() => Prioridad = await prioridadService.FindAsync(PrioridadId);
 
-    public async Task Eliminar()
+    public async Task Delete()
     {
         var eliminado = await prioridadService.Delete(Prioridad.PrioridadId);
         if (eliminado)

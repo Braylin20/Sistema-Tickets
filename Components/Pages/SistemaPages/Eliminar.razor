@@ -32,7 +32,7 @@
                 @if (!elimino)
                 {
                     <a href="/Sistemas/ConsultaSistema" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
-                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
+                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Delete">Eliminar</button>
                 }
                 else
                 {
@@ -54,7 +54,7 @@
 
     protected override async Task OnInitializedAsync() => Sistema = await sistemasService.FindAsync(SistemaId);
    
-    public async Task Eliminar()
+    public async Task Delete()
     {
         var eliminado = await sistemasService.Delete(Sistema.SistemaId);
         if (eliminado)

@@ -62,7 +62,7 @@
                 @if (!elimino)
                 {
                     <a href="/Ticket/ConsultaTicket" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
-                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Eliminar">Eliminar</button>
+                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Delete">Eliminar</button>
                 }
                 else
                 {
@@ -85,7 +85,7 @@
     protected override async Task OnInitializedAsync()=> Ticket = await ticketService.FindAsync(TicketId);
     
   
-    public async Task Eliminar()
+    public async Task Delete()
     {
         var eliminado = await ticketService.Delete(Ticket.TicketId);
         if (eliminado)
