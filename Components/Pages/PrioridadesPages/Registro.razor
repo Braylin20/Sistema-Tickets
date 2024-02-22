@@ -14,7 +14,7 @@
                 <div class="col-4">
                     <label>Prioridad Id</label>
                     <div>
-                        <InputNumber @bind-Value="Prioridad.PrioridadId" @oninput="Ocultar" class="form-control" min="0" aria-describedby=" BotonBuscar" />
+                        <InputNumber @bind-Value="Prioridad.PrioridadId" @oninput="Ocultar" class="form-control" min="0"/>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="mb-3 col-2">
                     <label>D&iacute;as</label>
-                    <InputNumber @bind-Value="Prioridad.DíasCompromiso" @oninput="Ocultar" class="form-control " step="1" min="1" max="31" />
+                    <InputNumber @bind-Value="Prioridad.DíasCompromiso" @oninput="Ocultar" class="form-control "min="1"/>
                     <ValidationMessage For="@(() => Prioridad.DíasCompromiso)" />
                 </div>
                 @if (Mensaje != null)
