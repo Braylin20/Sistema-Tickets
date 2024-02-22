@@ -4,50 +4,23 @@
 
 
 <div class="container">
-    <div class="card shadow-lg">
+    <div class="card">
         <div class="card-header">
-            <h5>Seguro que quieres eliminar esta prioridad?</h5>
+            <h5>Detalles</h5>
         </div>
         <div class="card-body">
-            @*Prioridades Id*@
-            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
-                <label>Prioridad Id</label>
-                <div class="input-group mb-3">
-                    <InputNumber @bind-Value="Prioridad.PrioridadId" class="form-control" min="@Prioridad.PrioridadId" max="@Prioridad.PrioridadId" aria-describedby=" BotonBuscar" />
-                </div>
-            </div>
-            @*Descripción*@
-            <div class="mb-3">
-                <label class="form-label" for="Soliciatdo Por">Descripci&oacute;n</label>
-                <InputText @bind-Value="Prioridad.Descripcion" class="form-control" />
-
-            </div>
-            @*Días Compromiso*@
-            <div class="mb-3">
-                <label class="form-label" for="Días">D&iacute;as</label>
-                <InputNumber @bind-Value="Prioridad.DíasCompromiso" class="form-check-label" min="@Prioridad.DíasCompromiso" max="@Prioridad.DíasCompromiso" />
-            </div>
-            @if (Mensaje != null)
-            {
-                <p class="text-danger">@Mensaje</p>
-            }
+            <h6>ID de Prioridad: @Prioridad.PrioridadId</h6>
+            <p>Descripción: @Prioridad.Descripcion</p>
+            <p>Días de Compromiso: @Prioridad.DíasCompromiso</p>
         </div>
-        <div class="card-footer d-flex justify-content-center">
+        <div class="card-footer">
             <div class="btn-group">
-                @if (!elimino)
-                {
-                    <a href="/ConsultaPrioridades" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
-                    <button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick="Delete">Eliminar</button>
-                }else{
-                    <a href="/ConsultaPrioridades" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
-                }
-                    
+                <a href="/ConsultaPrioridades" class="btn btn-outline-primary bi bi-arrow-left-square-fill"> Atr&aacute;s</a>
+                <button type="button"@onclick="Delete" class="btn btn-outline-danger bi bi-trash-fill"> Eliminar</button>
             </div>
         </div>
     </div>
 </div>
-
-
 
 @code {
     [Parameter]
